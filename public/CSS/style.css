@@ -1,0 +1,17 @@
+
+.sampul {
+    width: 100px;
+}
+
+.table > tbody > tr > * {
+    vertical-align: middle;
+}
+
+body {
+    padding-top: 0rem;
+}
+
+.bg-background {
+    position: absolute;
+    margin-top: 0%;
+}
