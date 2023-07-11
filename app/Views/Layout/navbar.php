@@ -13,19 +13,22 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/penjual/barang">Daftar Barang</a>
+                        <a class="nav-link text-black" href="/barang">Daftar Barang</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Keranjang</a>
+                        <a class="nav-link text-black" href="#">Keranjang</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a type="btn" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="/Img/PF.jpg" alt="Logo" width="20" height="20" class="d-inline-block align-text-top">
+                            <?php if (isset($profil['foto_pembeli'])) : ?>
+                                <img src="/Img/<?= $profil['foto_pembeli']; ?>" alt="Logo" width="20" height="20" class="d-inline-block align-text-top">
+                            <?php endif; ?>
+                            <span class="mr-2 d-one d-lg-inline small"><?= user()->username; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Profil</a></li>
+                            <li><a class="dropdown-item" href="profil">Profil</a></li>
                             <li><a class="dropdown-item" href="#">Riwayat pembelian</a></li>
-                            <li><a class="dropdown-item" href="">keluar</a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">keluar</a></li>
                             <!-- <li><a class="dropdown-item" href="#">Profil</a></li> -->
                         </ul>
                     </li>
@@ -36,18 +39,23 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/penjual/barang">Daftar Barang</a>
+                        <a class="nav-link" href="/barang">Daftar Barang</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Keranjang</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a type="btn" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="/Img/PF.jpg" alt="Logo" width="20" height="20" class="d-inline-block align-text-top">
+                            <?php if (isset($profil['foto_pembeli'])) : ?>
+                                <img src="/Img/<?= $profil['foto_pembeli']; ?>" alt="Logo" width="20" height="20" class="d-inline-block align-text-top">
+                            <?php endif; ?>
+                            <span class="mr-2 d-one d-lg-inline small"><?= user()->username; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="#">Masuk</a></li>
-                            <li><a class="dropdown-item" href="#">Daftar</a></li>
+                            <li><a class="dropdown-item" href="/profil">Profil</a></li>
+                            <li><a class="dropdown-item" href="penjual/barang">Barang</a></li>
+                            <li><a class="dropdown-item" href="#">Riwayat pembelian</a></li>
+                            <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">keluar</a></li>
                             <!-- <li><a class="dropdown-item" href="#">Profil</a></li> -->
                         </ul>
                     </li>

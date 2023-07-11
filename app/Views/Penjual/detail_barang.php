@@ -1,4 +1,4 @@
-<?= $this->extend('Penjual/Layout/template'); ?>
+<?= $this->extend('Layout/template'); ?>
 
 <?= $this->section('content'); ?>
 <img src="<?= base_url('Img/BG.png'); ?>" class="bg-background">
@@ -17,8 +17,8 @@
                             <p class="card-text">Stok tersisa : <?= $b_detail['stock']; ?></p>
                             <p class="card-text">Rp.<?= $b_detail['harga']; ?></p>
                             <p class="card-text"><?= $b_detail['deskripsi']; ?></p>
-                            <a href="" class="btn btn-outline-primary"><img src="/Img/keranjang.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-top"> | Keranjang</a>
-                            <a href="" class="btn btn-outline-info">Detail Barang</a>
+                            <a href="" class="btn btn-outline-warning"><img src="/Img/edit.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-top"> | Edit</a>
+                            <a href="" class="btn btn-outline-danger"><img src="/Img/delete.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-top"> | Hapus</a>
                             <p class="card-text"><small class="text-body-secondary">Terakhir diubah <?= $b_detail['updated_at']; ?></small></p>
                             <p class="card-text"><small class="text-body-secondary">Ditambahakan pada <?= $b_detail['created_at']; ?></small></p>
                             <!-- <a href="">Kembali ke daftar barang</a> -->

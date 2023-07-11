@@ -32,11 +32,17 @@ $routes->set404Override();
 $routes->get('/', 'Barang::index');
 $routes->get('login', 'Barang::login');
 $routes->get('register', 'Barang::register');
-$routes->get('penjual/barang', 'Barang::barang');
+$routes->get('profil', 'Page::profil', ['filter' => 'role:pembeli,penjual']);
+$routes->get('daftar_penjual', 'Page::daftar_penjual', ['filter' => 'role:pembeli']);
+$routes->post('daftar_penjual/daftar', 'Barang::penjual_simpan', ['filter' => 'role:pembeli']);
+// $routes->get('profil', 'Page::profil', ['filter' => 'role:penjual']);
+// $routes->get('register/getDesaByKecamatan/(:segment)', 'Barang::getDesaByKecamatan/$1');
+$routes->get('penjual/barang', 'Barang::barang', ['filter' => 'role:penjual']);
+$routes->get('penjual/barang/index', 'Barang::barang', ['filter' => 'role:penjual']);
 $routes->get('barang', 'Page::daftar_barang');
-$routes->get('penjual/barang/detail/(:any)', 'Barang::detail/$1');
-$routes->get('penjual/tambah_barang', 'Barang::tambah_barang');
-$routes->post('penjual/tambah_barang/simpan', 'Barang::save');
+$routes->get('penjual/barang/detail/(:any)', 'Barang::detail/$1', ['filter' => 'role:penjual']);
+$routes->get('penjual/tambah_barang', 'Barang::tambah_barang', ['filter' => 'role:penjual']);
+$routes->post('penjual/tambah_barang/simpan', 'Barang::save', ['filter' => 'role:penjual']);
 
 
 /*

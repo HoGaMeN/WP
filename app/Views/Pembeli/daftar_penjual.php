@@ -7,9 +7,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-8">
-                    <h2 class="my-3">Tambah barang</h2>
+                    <h2 class="my-3">Daftar Penjual</h2>
 
-                    <?php echo form_open_multipart('penjual/tambah_barang/simpan'); ?>
+                    <?php echo form_open_multipart('daftar_penjual/daftar'); ?>
                     <?php if (session()->has('err')) : ?>
                         <div class="alert alert-danger" role="alert">
                             <?php echo session('err'); ?>
@@ -17,10 +17,10 @@
                     <?php endif; ?>
                     <?= csrf_field(); ?>
                     <div class="row mb-3">
-                        <label for="nama_barang" class="col-sm-2 col-form-label">Nama Barang</label>
+                        <label for="nama_toko" class="col-sm-2 col-form-label">Nama Toko</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control <?php echo (isset($validation) && $validation->hasError('nama_barang')) ? 'is-invalid' : ''; ?>" id="nama_barang" name="nama_barang" autofocus value="<?= old('nama_barang'); ?>">
-                            <?php if (isset($validation) && $validation->hasError('nama_barang')) : ?>
+                            <input type="text" class="form-control <?php echo (isset($validation) && $validation->hasError('nama_toko')) ? 'is-invalid' : ''; ?>" id="nama_toko" name="nama_toko" autofocus value="<?= old('nama_toko'); ?>">
+                            <?php if (isset($validation) && $validation->hasError('nama_toko')) : ?>
                                 <div class="invalid-feedback">
                                     <?= $validation->getError('nama_barang'); ?>
                                 </div>
@@ -28,62 +28,51 @@
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="harga" class="col-sm-2 col-form-label">Harga</label>
+                        <label for="alamat" class="col-sm-2 col-form-label">Alamat</label>
                         <div class="col-sm-10">
-                            <input type="number" min="0" class="form-control <?= (isset($validation) && $validation->hasError('harga')) ? 'is-invalid' : ''; ?>" id="harga" name="harga" value="<?= old('harga'); ?>">
-                            <?php if (isset($validation) && $validation->hasError('harga')) : ?>
-                                <div class="invalid-feedback">
-                                    <?= $validation->getError('harga'); ?>
-                                </div>
-                            <?php endif; ?>
+                            <select class="form-select" name="kecamatan" id="kecamatan">
+                                <?php foreach ($kecamatan as $k) : ?>
+                                    <option value="<?= $k['id_kecamatan']; ?>" placeholder="Pilih Kecamatan"><?= $k['nama_kecamatan']; ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <select class="form-select" name="desa" id="desa">
+                                <?php foreach ($desa as $d) : ?>
+                                    <option value="<?= $d['id_desa']; ?>" placeholder="Pilih Desa"><?= $d['nama_desa']; ?></option>
+                                <?php endforeach ?>
+                            </select>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="stock" class="col-sm-2 col-form-label">Stok</label>
+                        <label for="detail_alamat" class="col-sm-2 col-form-label">Detail Alamat</label>
                         <div class="col-sm-10">
-                            <input type="number" min="0" class="form-control <?= (isset($validation) && $validation->hasError('stock')) ? 'is-invalid' : ''; ?>" id="stock" name="stock" value="<?= old('stock'); ?>">
+                            <textarea name="detail_alamat" class="form-control <?php if (session('errors.detail_alamat')) : ?>is-invalid<?php endif ?>" rows=" 4" cols="40" placeholder="Masukkan Detail Alamat" value="<?= old('detail_alamat') ?>"></textarea>
                             <?php if (isset($validation) && $validation->hasError('stock')) : ?>
                                 <div class="invalid-feedback">
                                     <?= $validation->getError('stock'); ?>
                                 </div>
                             <?php endif; ?>
+                            <small id="alamathelp" class="form-text text-muted">Pastikan alamat yang anda masukkan sesuai dengan yang semestinya</small>
                         </div>
                     </div>
                     <div class="row mb-3">
-                        <label for="kategori" class="col-sm-2 col-form-label">Kategori</label>
+                        <label for="foto_toko" class="col-sm-2 col-form-label">Foto barang</label>
                         <div class="col-sm-10">
-                            <select class="form-select" name="kategori" id="kategori">
-                                <?php foreach ($kategori as $k) : ?>
-                                    <option value="<?= $k['id_kategori']; ?>"><?= $k['kategori']; ?></option>
-                                <?php endforeach; ?>
-                            </select>
+                            <input type="file" class="form-control" id="foto_toko" name="foto_toko" value="<?= old('foto_toko'); ?>" onchange="previewImg()">
                         </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="deskripsi" class="col-sm-2 col-form-label">Deskripsi</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="deskripsi" name="deskripsi" value="<?= old('deskripsi'); ?>">
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <label for="foto_barang" class="col-sm-2 col-form-label">Foto barang</label>
-                        <div class="col-sm-10">
-                            <input type="file" class="form-control" id="foto_barang" name="foto_barang" value="<?= old('foto_barang'); ?>" onchange="previewImg()">
-                        </div>
-                        <?php if (isset($validation) && $validation->hasError('foto_barang')) : ?>
+                        <?php if (isset($validation) && $validation->hasError('foto_toko')) : ?>
                             <div class="invalid-feedback">
-                                <?php echo $validation->getError('foto_barang'); ?>
+                                <?php echo $validation->getError('foto_toko'); ?>
                             </div>
                         <?php endif; ?>
                     </div>
-                    <button type="submit" class="btn btn-primary mb-3 col-sm-12 ml-1">Tambah Barang</button>
+                    <button type="submit" class="btn btn-primary mb-3 col-sm-12 ml-1">Daftar</button>
                     <?php echo form_close(); ?>
                 </div>
                 <div class="col" style="padding-left: 4rem; padding-top: 2rem;">
                     <div class="card mb-3" style="max-width: 300px;">
                         <div class="md-4 container">
                             <img src="/Img/DS.jpg" class="img-thumbnail img-preview" style="max-height: 350px;">
-                            <label class="custom-file-label container" for="foto_barang" value="<?= old('foto_barang'); ?>" hidden>Pilih Gambar</label>
+                            <label class="custom-file-label container" for="foto_toko" value="<?= old('foto_toko'); ?>" hidden>Pilih Gambar</label>
                         </div>
                     </div>
                 </div>
@@ -97,7 +86,7 @@
         <!-- js for image preview -->
         <script>
             function previewImg() {
-                const sampul = document.querySelector('#foto_barang');
+                const sampul = document.querySelector('#foto_toko');
                 const sampulLabel = document.querySelector('.custom-file-label');
                 const imgPreview = document.querySelector('.img-preview');
 
