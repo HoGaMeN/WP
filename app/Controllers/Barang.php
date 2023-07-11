@@ -74,11 +74,14 @@ class Barang extends BaseController
     public function barang()
     {
         $email = !empty(user()->email) ? user()->email : null; // Mendapatkan email pengguna yang sedang login
+        $toko = $this->tokoModel->getToko($email);
+
+        $id_toko = $toko['id_toko'];
 
         $data = [
             'title' => 'Barang | WarungPedia',
-            'barang' => $this->barangModel->getBarang(),
-            'profil' => $this->pembeli->getProfil($email)
+            'barang' => $this->barangModel->getBarangPenjual($id_toko),
+            'profil' => $this->pembeli->getProfil($email),
         ];
 
         return view('Penjual/mybarang', $data);
@@ -191,6 +194,22 @@ class Barang extends BaseController
         return redirect()->to('penjual/barang');
     }
 
+    public function delete($id_barang)
+    {
+        $barang = $this->barangModel->find($id_barang);
+
+        if (!$barang) {
+            session()->setFlashdata('err', 'Barang tidak ditemukan.');
+            return redirect()->to('/'); // Ubah URL redirect sesuai kebutuhan
+        }
+
+        $this->barangModel->deleteBarang($id_barang);
+        session()->setFlashdata('pesan', 'Data berhasil dihapus.');
+        return redirect()->to('penjual/barang'); // Ubah URL redirect sesuai kebutuhan
+    }
+
+
+
     public function penjual_simpan()
     {
         $email = !empty(user()->email) ? user()->email : null;
@@ -251,6 +270,7 @@ class Barang extends BaseController
         }
 
         // Mengambil data alamat
+        $nama_toko = $this->request->getPost('nama_toko');
         $idKecamatan = $this->request->getPost('kecamatan');
         $idDesa = $this->request->getPost('desa');
         $detailAlamat = $this->request->getPost('detail_alamat');
@@ -260,6 +280,7 @@ class Barang extends BaseController
         // Menyimpan data ke tabel toko
         $tokoModel = new TokoModel();
         $tokoData = [
+            'nama_toko' => $nama_toko,
             'id_pembeli' => $idPembeli,
             'id_kecamatan' => $idKecamatan,
             'id_desa' => $idDesa,
@@ -270,8 +291,10 @@ class Barang extends BaseController
 
         // Memperbarui data pada tabel auth_groups_users
         $authGroupModel = new \Myth\Auth\Models\GroupModel();
-        $groupID = 2; // ID grup penjual
-        $authGroupModel->updateUserInGroup($iduser, $groupID);
+        $groupIDJ = 2; // ID grup penjual
+        $groupIDP = 1; // ID grup pembeli
+        $authGroupModel->addUserToGroup($iduser, $groupIDJ);
+        $authGroupModel->removeUserFromGroup($iduser, $groupIDP);
 
         // Redirect ke halaman profil atau halaman lain yang sesuai
         return redirect()->to('/profil');

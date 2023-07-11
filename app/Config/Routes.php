@@ -35,6 +35,7 @@ $routes->get('register', 'Barang::register');
 $routes->get('profil', 'Page::profil', ['filter' => 'role:pembeli,penjual']);
 $routes->get('daftar_penjual', 'Page::daftar_penjual', ['filter' => 'role:pembeli']);
 $routes->post('daftar_penjual/daftar', 'Barang::penjual_simpan', ['filter' => 'role:pembeli']);
+$routes->get('barang/delete/(:num)', 'Barang::delete/$1', ['filter' => 'role:penjual']); // Ubah URL route sesuai kebutuhan
 // $routes->get('profil', 'Page::profil', ['filter' => 'role:penjual']);
 // $routes->get('register/getDesaByKecamatan/(:segment)', 'Barang::getDesaByKecamatan/$1');
 $routes->get('penjual/barang', 'Barang::barang', ['filter' => 'role:penjual']);

@@ -41,7 +41,7 @@ class Page extends BaseController
 
         $data = [
             'title' => 'Barang | WarungPedia',
-            'barang' => $this->barangModel->getBarang(),
+            'barang' => $this->barangModel->getDaftarBarang(),
             'profil' => $this->pembeli->getProfil($email)
         ];
         return view('Pembeli/daftar_barang', $data);

@@ -18,7 +18,9 @@
                             <p class="card-text">Rp.<?= $b_detail['harga']; ?></p>
                             <p class="card-text"><?= $b_detail['deskripsi']; ?></p>
                             <a href="" class="btn btn-outline-warning"><img src="/Img/edit.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-top"> | Edit</a>
-                            <a href="" class="btn btn-outline-danger"><img src="/Img/delete.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-top"> | Hapus</a>
+                            <a href="<?= base_url('barang/delete/' . $b_detail['id_barang']); ?>" class="btn btn-outline-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
+                                <img src="/Img/delete.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-top"> | Hapus
+                            </a>
                             <p class="card-text"><small class="text-body-secondary">Terakhir diubah <?= $b_detail['updated_at']; ?></small></p>
                             <p class="card-text"><small class="text-body-secondary">Ditambahakan pada <?= $b_detail['created_at']; ?></small></p>
                             <!-- <a href="">Kembali ke daftar barang</a> -->

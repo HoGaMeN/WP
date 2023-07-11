@@ -4,11 +4,11 @@
 <?php if (in_groups('pembeli')) : ?>
     <div class="border-black border-bottom border-top border-4" style="background-color: aquamarine; padding-top: 2rem; padding-bottom: 2rem;">
         <div class="container">
-            <div class="col-sm-4 offset-lg-5">
+            <div class="col" id="memed">
                 <?php if (isset($profil['foto_pembeli'])) : ?>
                     <img src="/Img/<?= $profil['foto_pembeli']; ?>" class="rounded-circle" style="max-height: 275px;">
                 <?php endif; ?>
-                <div class="container" style="padding-top: 1rem;">
+                <div class="nama" style="padding-top: 1rem;">
                     <h4><?= $profil['nama']; ?></h4>
                 </div>
             </div>
@@ -47,11 +47,11 @@
 <?php elseif (in_groups('penjual')) : ?>
     <div class="border-black border-bottom border-top border-4" style="background-color: aquamarine; padding-top: 2rem; padding-bottom: 2rem;">
         <div class="container">
-            <div class="col-sm-4 offset-lg-5">
+            <div class="col" id="memed">
                 <?php if (isset($profil['foto_pembeli'])) : ?>
                     <img src="/Img/<?= $profil['foto_pembeli']; ?>" class="rounded" style="max-height: 275px;">
                 <?php endif; ?>
-                <div class="container" style="padding-top: 1rem; padding-left: 30px;">
+                <div class="nama mt-2">
                     <h4><?= $profil['nama']; ?></h4>
                 </div>
             </div>
