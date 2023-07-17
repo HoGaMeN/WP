@@ -286,3 +286,72 @@ body {
   #twitter:hover {
     color: #00acee;
   }
+
+  .carousel-item img {
+    object-fit: cover; /* Gambar akan diatur sedemikian rupa sehingga selalu tertutupi oleh elemen parentnya tanpa terpotong */
+    max-height: 400px; /* Atur tinggi maksimum gambar agar tidak terlalu besar atau kecil */
+}
+
+
+  /* Button */
+  /* #delete {
+    width: 125px;
+    height: 45px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    background: red;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.15);
+    background: #e62222;
+   }
+   
+   #delete, #delete span {
+    transition: 200ms;
+   }
+   
+   #delete .text {
+    transform: translateX(35px);
+    color: white;
+    font-weight: bold;
+   }
+   
+   #delete .icon {
+    position: absolute;
+    border-left: 3px solid #ffffff;
+    transform: translateX(100px);
+    height: 17px;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   }
+   
+   #delete svg {
+    width: 15px;
+    fill: #eee;
+   }
+   
+   #delete:hover {
+    background: #ff3636;
+   }
+   
+   #delete:hover .text {
+    color: transparent;
+   }
+   
+   #delete:hover .icon {
+    width: 125px;
+    border-left: none;
+    transform: translateX(0);
+    padding-left: 10px;
+   }
+   
+   #delete:focus {
+    outline: none;
+   }
+   
+   #delete:active .icon svg {
+    transform: scale(0.8);
+   } */

@@ -39,13 +39,18 @@ class Page extends BaseController
     {
         $email = !empty(user()->email) ? user()->email : null; // Mendapatkan email pengguna yang sedang login
 
+        $profil = $email ? $this->pembeli->getProfil($email) : null;
+
         $data = [
             'title' => 'Barang | WarungPedia',
             'barang' => $this->barangModel->getDaftarBarang(),
-            'profil' => $this->pembeli->getProfil($email)
+            'profil' => $profil,
+            'rekomendasi' => $this->barangModel->getBarangRekomendasi($profil ? $profil['fk_id_kecamatan'] : null)
         ];
+
         return view('Pembeli/daftar_barang', $data);
     }
+
 
     public function profil()
     {

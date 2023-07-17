@@ -40,7 +40,7 @@
                 </div>
             <?php endif; ?>
             <div class="row" style="padding-bottom: 20px;">
-                <button class="btn btn-warning " style="width: 100%; height: 4rem;" hr><a href=""></a>Keluar</button>
+                <a class="btn btn-warning " style="width: 100%; height: 4rem;" href="<?= base_url('logout'); ?>">Keluar</a>
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@
                 <button class="btn btn-info " style="width: 100%; height: 4rem;">Toko</button>
             </div>
             <div class="row" style="padding-bottom: 20px;">
-                <button class="btn btn-warning " style="width: 100%; height: 4rem;">Keluar</button>
+                <a class="btn btn-warning" style="width: 100%; height: 4rem;" href="<?= base_url('logout'); ?>">Keluar</a>
             </div>
         </div>
     </div>

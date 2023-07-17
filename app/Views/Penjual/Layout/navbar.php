@@ -16,7 +16,7 @@
                     <a class="nav-link" href="#">Keranjang</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a type="btn" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a type="btn" class="nav-link dropdown-toggle" style="border-left: 10px; border-color: black;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="/Img/PF.jpg" alt="Logo" width="20" height="20" class="d-inline-block align-text-top">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">

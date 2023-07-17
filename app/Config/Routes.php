@@ -36,12 +36,22 @@ $routes->get('profil', 'Page::profil', ['filter' => 'role:pembeli,penjual']);
 $routes->get('daftar_penjual', 'Page::daftar_penjual', ['filter' => 'role:pembeli']);
 $routes->post('daftar_penjual/daftar', 'Barang::penjual_simpan', ['filter' => 'role:pembeli']);
 $routes->get('barang/delete/(:num)', 'Barang::delete/$1', ['filter' => 'role:penjual']); // Ubah URL route sesuai kebutuhan
+$routes->get('barang/edit_barang/(:any)', 'Barang::edit_barang/$1', ['filter' => 'role:penjual']);
+$routes->post('penjual/edit_barang/simpan/(:num)', 'Barang::update/$1', ['filter' => 'role:penjual']);
+$routes->get('barang/cari', 'Barang::search');
+$routes->get('toko/cari/(:num)', 'Barang::search_b_toko/$1');
+$routes->get('toko/(:num)', 'Barang::toko/$1');
+$routes->get('barang/detail/(:num)', 'Barang::pembeli_detail_barang/$1');
+$routes->get('pembeli/keranjang', 'Barang::keranjang', ['filter' => 'role:pembeli,penjual']);
+$routes->get('pembeli/tambah-ke-keranjang/(:num)', 'Barang::tambahKeKeranjang/$1', ['filter' => 'role:pembeli,penjual']);
+$routes->get('pembeli/checkout', 'Barang::checkout', ['filter' => 'role:pembeli,penjual']);
 // $routes->get('profil', 'Page::profil', ['filter' => 'role:penjual']);
 // $routes->get('register/getDesaByKecamatan/(:segment)', 'Barang::getDesaByKecamatan/$1');
 $routes->get('penjual/barang', 'Barang::barang', ['filter' => 'role:penjual']);
 $routes->get('penjual/barang/index', 'Barang::barang', ['filter' => 'role:penjual']);
 $routes->get('barang', 'Page::daftar_barang');
 $routes->get('penjual/barang/detail/(:any)', 'Barang::detail/$1', ['filter' => 'role:penjual']);
+$routes->get('pembeli/barang/detail/(:any)', 'Barang::detail_barang/$1', ['filter' => 'role:penjual']);
 $routes->get('penjual/tambah_barang', 'Barang::tambah_barang', ['filter' => 'role:penjual']);
 $routes->post('penjual/tambah_barang/simpan', 'Barang::save', ['filter' => 'role:penjual']);
 

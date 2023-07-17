@@ -16,7 +16,7 @@
                         <a class="nav-link text-black" href="/barang">Daftar Barang</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-black" href="#">Keranjang</a>
+                        <a class="nav-link text-black" href="/pembeli/keranjang">Keranjang</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a type="btn" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -26,7 +26,7 @@
                             <span class="mr-2 d-one d-lg-inline small"><?= user()->username; ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="profil">Profil</a></li>
+                            <li><a class="dropdown-item" href="/profil">Profil</a></li>
                             <li><a class="dropdown-item" href="#">Riwayat pembelian</a></li>
                             <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">keluar</a></li>
                             <!-- <li><a class="dropdown-item" href="#">Profil</a></li> -->
@@ -53,7 +53,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="/profil">Profil</a></li>
-                            <li><a class="dropdown-item" href="penjual/barang">Barang</a></li>
+                            <li><a class="dropdown-item" href="/penjual/barang">Barang</a></li>
                             <li><a class="dropdown-item" href="#">Riwayat pembelian</a></li>
                             <li><a class="dropdown-item" href="<?= base_url('logout'); ?>">keluar</a></li>
                             <!-- <li><a class="dropdown-item" href="#">Profil</a></li> -->
@@ -72,8 +72,8 @@
                             <img src="/Img/PF.jpg" alt="Logo" width="20" height="20" class="d-inline-block align-text-top">
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
-                            <li><a class="dropdown-item" href="login">Masuk</a></li>
-                            <li><a class="dropdown-item" href="register">Daftar</a></li>
+                            <li><a class="dropdown-item" href="/login">Masuk</a></li>
+                            <li><a class="dropdown-item" href="/register">Daftar</a></li>
                             <!-- <li><a class="dropdown-item" href="#">Profil</a></li> -->
                         </ul>
                     </li>

@@ -9,6 +9,7 @@ use App\Models\DesaModel;
 use App\Models\PembeliModel;
 use App\Models\TokoModel;
 use Myth\Auth\Models\GroupModel;
+use App\Models\TransaksiModel;
 
 class Barang extends BaseController
 {
@@ -20,6 +21,7 @@ class Barang extends BaseController
     protected $pembeli;
     protected $tokoModel;
     protected $groupModel;
+    protected $transaksiModel;
 
     public function __construct()
     {
@@ -30,6 +32,7 @@ class Barang extends BaseController
         $this->pembeli = new PembeliModel();
         $this->tokoModel = new TokoModel();
         $this->groupModel = new GroupModel();
+        $this->transaksiModel = new TransaksiModel();
     }
 
     public function index()
@@ -208,6 +211,83 @@ class Barang extends BaseController
         return redirect()->to('penjual/barang'); // Ubah URL redirect sesuai kebutuhan
     }
 
+    public function edit_barang($slug)
+    {
+        $email = !empty(user()->email) ? user()->email : null;
+
+        $data = [
+            'title' => 'Edit Barang | WarungPedia',
+            'validation' => \Config\Services::validation(),
+            'kategori' => $this->kategori->getKategori(),
+            'b_detail' => $this->barangModel->getBarang($slug),
+            'profil' => $this->pembeli->getProfil($email)
+        ];
+
+        return view('Penjual/edit_barang', $data);
+    }
+
+    public function update($id_barang)
+    {
+        $barangModel = new BarangModel();
+        $kategoriModel = new KategoriModel();
+        $validation = \Config\Services::validation();
+
+        // Ambil data barang yang akan diupdate
+        $barang = $barangModel->find($id_barang);
+
+        // Cek apakah barang ditemukan
+        if (!$barang) {
+            session()->setFlashdata('err', 'Barang tidak ditemukan.');
+            return redirect()->back();
+        }
+
+        // Validasi input
+        $rules = [
+            'nama_barang' => 'required',
+            'harga' => 'required',
+            'stock' => 'required',
+            'kategori' => 'required',
+            'deskripsi' => 'required',
+            'foto_barang' => 'max_size[foto_barang,1024]|is_image[foto_barang]'
+        ];
+
+        if (!$this->validate($rules)) {
+            session()->setFlashdata('err', $validation->getErrors());
+            return redirect()->back()->withInput();
+        }
+
+        // Proses update data barang
+        $barangData = [
+            'nama_barang' => $this->request->getVar('nama_barang'),
+            'harga' => $this->request->getVar('harga'),
+            'stock' => $this->request->getVar('stock'),
+            'id_kategori' => $this->request->getVar('kategori'),
+            'deskripsi' => $this->request->getVar('deskripsi')
+        ];
+
+        // Generate slug dari nama barang yang diupdate
+        $slug = url_title($this->request->getVar('nama_barang'), '-', true);
+        $barangData['slug'] = $slug;
+
+        // Cek apakah ada file gambar yang diupload
+        $fotoBarang = $this->request->getFile('foto_barang');
+        if ($fotoBarang->isValid() && !$fotoBarang->hasMoved()) {
+            // Generate nama file unik
+            $namaBaru = $fotoBarang->getRandomName();
+            // Pindahkan file gambar ke folder yang diinginkan
+            $fotoBarang->move('./Img/', $namaBaru);
+            // Simpan nama file gambar ke database
+            $barangData['foto_barang'] = $namaBaru;
+        }
+
+        // Lakukan update data barang
+        $barangModel->update($id_barang, $barangData);
+
+        session()->setFlashdata('msg', 'Barang berhasil diupdate.');
+        return redirect()->to('penjual/barang'); // Ubah URL redirect sesuai kebutuhan
+    }
+
+
 
 
     public function penjual_simpan()
@@ -298,5 +378,116 @@ class Barang extends BaseController
 
         // Redirect ke halaman profil atau halaman lain yang sesuai
         return redirect()->to('/profil');
+    }
+
+    public function search()
+    {
+        $keyword = $this->request->getGet('keyword');
+        $barangModel = new BarangModel();
+
+        $email = !empty(user()->email) ? user()->email : null;
+
+        $profil = $email ? $this->pembeli->getProfil($email) : null;
+
+        if (!empty($keyword)) {
+            $barang = $barangModel->searchBarang($keyword);
+            $searchError = '';
+            $notFound = empty($barang) ? 'Barang tidak ditemukan' : '';
+        } else {
+            $barang = [];
+            $searchError = 'Inputan search belum dimasukkan';
+            $notFound = '';
+            $barang = $this->barangModel->getDaftarBarang();
+        }
+
+        $data = [
+            'title' => 'Barang | Warung Pedia',
+            'barang' => $barang,
+            'keyword' => $keyword,
+            'searchError' => $searchError,
+            'notFound' => $notFound,
+            'profil' => $profil,
+            'rekomendasi' => $this->barangModel->getBarangRekomendasi($profil ? $profil['fk_id_kecamatan'] : null)
+        ];
+
+        return view('pembeli/daftar_barang', $data);
+    }
+
+    public function toko($id_toko)
+    {
+        $email = !empty(user()->email) ? user()->email : null;
+
+        $data = [
+            'title' => 'Toko | WarungPedia',
+            'validation' => \Config\Services::validation(),
+            'barang' => $this->barangModel->getDetailToko($id_toko),
+            'profil' => $this->pembeli->getProfil($email)
+        ];
+
+        return view('penjual/toko', $data);
+    }
+
+    public function pembeli_detail_barang($id_barang)
+    {
+        $email = !empty(user()->email) ? user()->email : null;
+
+        $barang = $this->barangModel->getDetailBarang($id_barang);
+        $profil = $this->pembeli->getProfil($email);
+
+        $data = [
+            'title' => 'Detail Barang | WarungPedia',
+            'barang' => $barang,
+            'profil' => $profil,
+            'rekomendasi' => $this->barangModel->getBarangRekomendasiSejenis($barang['id_kategori']),
+            'rekomendasiToko' => $this->barangModel->getBarangRekomendasiToko($barang['id_toko'])
+        ];
+
+        return view('Pembeli/detail_barang', $data);
+    }
+
+    // Method untuk menambahkan barang ke keranjang
+    public function tambahKeKeranjang($id_barang)
+    {
+        $email = !empty(user()->email) ? user()->email : null;
+        // Mendapatkan informasi barang dari database berdasarkan id_barang
+        // $barang = $this->barangModel->getDetailBarang($id_barang);
+        $profil = $this->pembeli->getProfil($email);
+        $id_pembeli = $profil['id_pembeli'];
+        $status = "keranjang";
+        $jumlah_barang = 1;
+
+        // Menambahkan data ke tabel transaksi (keranjang)
+        $data = [
+            'id_pembeli' => $id_pembeli,
+            'id_barang' => $id_barang,
+            'jumlah_barang' => $jumlah_barang, // Jumlah barang diatur menjadi 1
+            'total_harga' => 0, // Total harga diisi saat checkout
+            'tanggal_beli' => null, // Tanggal beli diisi saat checkout
+            'status' => $status
+        ];
+        $this->transaksiModel->insert($data);
+
+        return redirect()->back()->with('message', 'Barang berhasil ditambahkan ke keranjang.');
+    }
+
+    // Method untuk menampilkan halaman keranjang
+    public function keranjang()
+    {
+        $email = !empty(user()->email) ? user()->email : null;
+
+        // Mendapatkan informasi pembeli dari session atau pengguna yang sedang login
+        $profil = $this->pembeli->getProfil($email);
+        $id_pembeli = $profil['id_pembeli'];
+
+        // Mendapatkan daftar barang dalam keranjang berdasarkan id_pembeli
+        $keranjang = $this->transaksiModel->getKeranjangByPembeli($id_pembeli);
+
+        $data = [
+            'title' => 'Keranjang | WarungPedia',
+            'keranjang' => $keranjang,
+            'profil'   => $profil
+        ];
+
+        return view('Pembeli/keranjang', $data);
     }
 }

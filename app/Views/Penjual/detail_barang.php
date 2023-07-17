@@ -17,7 +17,7 @@
                             <p class="card-text">Stok tersisa : <?= $b_detail['stock']; ?></p>
                             <p class="card-text">Rp.<?= $b_detail['harga']; ?></p>
                             <p class="card-text"><?= $b_detail['deskripsi']; ?></p>
-                            <a href="" class="btn btn-outline-warning"><img src="/Img/edit.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-top"> | Edit</a>
+                            <a href="<?= base_url('barang/edit_barang/' . $b_detail['slug']); ?>" class="btn btn-outline-warning"><img src="/Img/edit.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-top"> | Edit</a>
                             <a href="<?= base_url('barang/delete/' . $b_detail['id_barang']); ?>" class="btn btn-outline-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus barang ini?')">
                                 <img src="/Img/delete.png" alt="Logo" width="20" height="20" class="d-inline-block align-text-top"> | Hapus
                             </a>
